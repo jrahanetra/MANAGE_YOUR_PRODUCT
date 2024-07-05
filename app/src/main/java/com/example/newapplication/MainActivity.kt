@@ -45,7 +45,7 @@ import com.example.newapplication.ui.theme.NewApplicationTheme
 
 @Suppress("DEPRECATION")
 class MainActivity : ComponentActivity() {
-    override fun onCreate(saDSAvedInstanceState: Bundle?) {
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         //ICI NOUS ASSIGNONS L'ATTRIBUT DE L'OBJET LISTPRODUIT DANS LE VAL PRODUITS
 
