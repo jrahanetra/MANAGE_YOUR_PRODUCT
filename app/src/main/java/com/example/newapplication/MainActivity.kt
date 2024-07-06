@@ -37,25 +37,23 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
 import coil.transform.CircleCropTransformation
 import com.example.newapplication.ui.theme.NewApplicationTheme
 
-@Suppress("DEPRECATION")
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        //ICI NOUS ASSIGNONS L'ATTRIBUT DE L'OBJET LISTPRODUIT DANS LE VAL PRODUITS
-
 
         //NOUS DÉMARRONS LE CONTENANT DE L'ACTIVITÉ
         setContent {
             NewApplicationTheme {
                 //NOUS DÉMARRONS ICI LE COMPOSANT MAINVIEW
                 MainView(
-                    ListProduit.produitList,
+                    ListProduit.produitList.sortedBy { it.id }.toMutableList(),
                     seeDetails = {produit ->
                         val itent = Intent(this, DetailsProduitActivity::class.java)
                             .apply { putExtra("idProduit", produit.id) }
@@ -63,6 +61,10 @@ class MainActivity : ComponentActivity() {
                     },
                     goToRegistrationProduct = {
                         val intent = Intent(this, RegistrationActivity::class.java)
+                        startActivity(intent)
+                    },
+                    goToPreviousActivity = {
+                        val intent = Intent(this, MainActivity::class.java)
                         startActivity(intent)
                     }
                 )
@@ -82,11 +84,12 @@ class MainActivity : ComponentActivity() {
 fun MainView(
     listProduits: List<Produit>,
     seeDetails: (Produit) -> Unit,
-    goToRegistrationProduct: () -> Unit
+    goToRegistrationProduct: () -> Unit,
+    goToPreviousActivity: () -> Unit
 ){
     Scaffold(
         topBar = {
-                 Header()
+                 Header( goToPreviousActivity )
         },
         floatingActionButton = {
             FloatingActionButton(
@@ -111,7 +114,9 @@ fun MainView(
  * */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun Header(){
+fun Header(
+    goToPreviousActivity: () -> Unit,
+){
     CenterAlignedTopAppBar(
         colors = TopAppBarDefaults.topAppBarColors(
             containerColor = colorResource(id = R.color.purple_700),
@@ -124,7 +129,7 @@ fun Header(){
         },
         navigationIcon = {
             IconButton(
-                onClick = { /*TODO*/ },
+                onClick = { goToPreviousActivity() },
             )
             {
                 Icon(
@@ -205,8 +210,23 @@ fun ShowCard(
                 modifier = Modifier.size(100.dp)
             )
 
-            Text(text = "${produit.nomProduit}")
+            Text(text = produit.nomProduit)
         }
     }
 }
 
+/**
+ * PREVIEW C'EST JUSTE POUR VOIR LE DESIGN EN AMENT (EN AVANCE)
+ */
+@Preview(showBackground = true)
+@Composable
+fun ShowPreview1(){
+    NewApplicationTheme {
+        MainView(
+            ListProduit.produitList,
+            seeDetails = {},
+            goToRegistrationProduct = {},
+            goToPreviousActivity = {}
+        )
+    }
+}

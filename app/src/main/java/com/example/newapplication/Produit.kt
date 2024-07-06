@@ -1,7 +1,7 @@
 package com.example.newapplication
 
 
-//CECI EST LA CLASSE PRODUIT
+/** CECI EST LA CLASSE PRODUIT */
 data class Produit(
     val id : Int,
     var nomProduit : String,
@@ -12,12 +12,18 @@ data class Produit(
 )
 
 
-
-//CECI EST UN OBJET SINGLETON C'EST-À-DIRE UN OBJET D'UNE CLASSE QUE L'ON DÉCLARE ET FORME EN MÊME TEMPS (L'OBJET ET LA CLASSE)
+/** CECI EST UN OBJET SINGLETON C'EST-À-DIRE UN OBJET D'UNE CLASSE QUE L'ON DÉCLARE ET FORME EN MÊME TEMPS (L'OBJET ET LA CLASSE */
 object ListProduit {
+    //CECI ASSURERA L'INCRÉMENTATION DE L'IDPRODUIT
+    private var currentId = 0
+    private fun nextID() = ++currentId
+
+    /**
+     * CE VARIABLE EST L'ATTRIBUT DE LA CLASSE LISTPRODUIT QUI EST LA LISTE DE PRODUIT LUI-MÊME. DE TYPE MutableList<Produit>
+     */
     var produitList: MutableList<Produit> = mutableListOf(
         Produit(
-            1,
+            nextID(),
             "Produit1",
             300.2,
             10.0,
@@ -25,7 +31,7 @@ object ListProduit {
             "Produit 4"
         ),
         Produit(
-            2,
+            nextID(),
             "Produit2",
             300.2,
             10.0,
@@ -33,7 +39,7 @@ object ListProduit {
             "Produit ,f,ms4"
         ),
         Produit(
-            3,
+            nextID(),
             "Produit3",
             300.2,
             10.0,
@@ -49,7 +55,7 @@ object ListProduit {
             "Produit 4"
         ),
         Produit(
-            5,
+            nextID(),
             "Produit5",
             300.2,
             10.0,
@@ -57,7 +63,7 @@ object ListProduit {
             "Produidasssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssst 4"
         ),
         Produit(
-            6,
+            nextID(),
             "Produit6",
             300.2,
             10.0,
@@ -65,7 +71,7 @@ object ListProduit {
             "Produit 4"
         ),
         Produit(
-            7,
+            nextID(),
             "Produit7",
             300.2,
             10.0,
@@ -73,7 +79,7 @@ object ListProduit {
             "Produit 4"
         ),
         Produit(
-            8,
+            nextID(),
             "Produit8",
             300.2,
             10.0,
@@ -87,7 +93,10 @@ object ListProduit {
      * @param idProduit : Int qui est l'id du produit
      * @return Produit cela retourne le produit qui a pour id, idProduit donné en paramètre
      */
-    fun selectProduit(idProduit: Int): Produit {
+    fun selectProduit(
+        idProduit: Int
+    ): Produit
+    {
         var product = Produit(0,"",0.00,0.00,"","")
         for(produit in produitList){
             if (produit.id == idProduit){
@@ -102,11 +111,55 @@ object ListProduit {
      * @param idProduit : Int qui est l'id du produit à supprimer
      * @return MutableList<Produit> la liste mise à jour des produits
      */
-    fun removeProduit(idProduit: Int): MutableList<Produit> {
+    fun removeProduit(
+        idProduit: Int
+    ): MutableList<Produit>
+    {
         val produit = selectProduit(idProduit)
         produit.let {
             produitList.remove(it)
         }
+        return produitList
+    }
+
+    /**
+     * FONCTION POUR MODIFIER LE PRODUIT
+     * @param nomProduit : String
+     * @param prixProduit : DOuble
+     * @param qttProduit : Double
+     * @param imageUrl : String
+     * @param descriptProduit : String
+     */
+    fun upDateProduit(idProduit: Int,
+                      nomProduit: String,
+                      prixProduit : Double,
+                      qttProduit: Double,
+                      imageUrl : String,
+                      descriptProduit : String
+    )
+    {
+        ListProduit.removeProduit(idProduit)
+        produitList.add(Produit(idProduit, nomProduit, prixProduit, qttProduit, imageUrl, descriptProduit))
+    }
+
+    /**
+     * FONCTION POUR AJOUTER UN PRODUIT ET RETOURNE LE LISTEPRODUIT
+     * @param nomProduit : String
+     * @param prixProduit : DOuble
+     * @param qttProduit : Double
+     * @param imageUrl : String
+     * @param descriptProduit : String
+     * @return MutableList<Produit>
+     */
+    fun addProduit(
+        nomProduit: String,
+        prixProduit : Double,
+        qttProduit: Double,
+        imageUrl : String,
+        descriptProduit : String
+    ) : MutableList<Produit>
+    {
+        produitList.add(Produit(nextID(), nomProduit, prixProduit, qttProduit, imageUrl, descriptProduit))
         return produitList
     }
 }
