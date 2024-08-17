@@ -143,7 +143,7 @@ object ListProduit {
     }
 
     /**
-     * FONCTION POUR AJOUTER UN PRODUIT ET RETOURNE LE LISTEPRODUIT
+     * FONCTION POUR AJOUTER UN PRODUIT ET RETOURNE LA LISTEPRODUIT
      * @param nomProduit : String
      * @param prixProduit : DOuble
      * @param qttProduit : Double
